@@ -17,7 +17,7 @@ setup(
     author_email='se-dmc@bhp.org.bw',
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/nmunatsi/trainee-validations',
+    # url='https://github.com/nmunatsi/trainee-validations',
     license='GPL license, see LICENSE',
     description='Trainee Plus Validations',
     long_description=README,
