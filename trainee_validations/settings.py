@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-APP_NAME= 'trainee_validations'
+APP_NAME = 'trainee_validations'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Own
-    'trainee_validations.apps.AppConfig'
+    # Edc
+    'edc_device.apps.AppConfig',
+    'esr21_subject_validation.apps.EdcProtocolAppConfig',
+    'esr21_subject_validation.apps.AppConfig',
 ]
 
 MIDDLEWARE = [

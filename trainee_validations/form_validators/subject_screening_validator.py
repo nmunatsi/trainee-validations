@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from edc_constants.constants import NO, NOT_APPLICABLE, YES
+from edc_constants.constants import NO, YES
 from edc_form_validators import FormValidator
 
 
@@ -17,34 +17,29 @@ class ScreeningFormValidator(FormValidator):
 
         if participant_age < 0:
             raise ValidationError(
-                'Invalid age input'
+                {'age_in_years': ['Age cant be negative']}
             )
 
-        if participant_age < 18 and guardian == NO:
-            raise ValidationError(
-                'Participant is a minor, guardian is required'
-            )
+        self.required_if_true(
+            participant_age < 18,
+            field_required='guardian_available',
+            required_msg='Participant is a minor, Guardian must be present'
+        )
 
-        if citizen == NO:
-            if legal_marriage == NOT_APPLICABLE:
-                raise ValidationError(
-                    'This field is applicable'
-                )
+        self.required_if(
+            NO,
+            field='citizen',
+            field_required='legal_marriage',
+        )
 
-        if legal_marriage == YES:
-            if marriage_certificate == NOT_APPLICABLE:
-                raise ValidationError(
-                    'This field is applicable'
-                )
+        self.applicable_if(
+            YES,
+            field='legal_marriage',
+            field_applicable='marriage_certificate',
+        )
 
-        if legal_marriage == NO:
-            if marriage_certificate == YES:
-                raise ValidationError(
-                    'This field is not applicable'
-                )
-
-        if marriage_certificate == NO:
-            if marriage_certificate_no:
-                raise ValidationError(
-                    'This field is not required'
-                )
+        self.required_if_true(
+            condition=marriage_certificate == YES,
+            field='marriage_certificate',
+            field_required='marriage_certificate_no',
+        )
